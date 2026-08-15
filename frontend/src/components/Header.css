@@ -1,0 +1,78 @@
+
+.header{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:80px;
+
+    background:#0f172a;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 10%;
+
+    z-index:100;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.3);
+
+}
+
+.logo{
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#22c55e;
+
+}
+
+nav{
+
+    display:flex;
+
+    gap:40px;
+
+}
+
+nav a{
+
+    transition:.3s;
+
+}
+
+nav a:hover{
+
+    color:#22c55e;
+
+}
+
+.cartButton{
+
+    background:#22c55e;
+
+    color:white;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    font-weight:bold;
+
+}
+
+.cartButton:hover{
+
+    background:#16a34a;
+
+}

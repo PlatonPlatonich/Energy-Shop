@@ -1,0 +1,99 @@
+/* Контейнер для сетки товаров */
+.product-list-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Карточка товара */
+.product-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #f0f0f0;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Изображение */
+.product-image {
+  width: 100%;
+  height: 160px;
+  object-fit: contain;
+  margin-bottom: 15px;
+  border-radius: 6px;
+}
+
+/* Заголовок и бренд */
+.product-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 6px 0;
+}
+
+.product-meta {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.product-description {
+  font-size: 14px;
+  color: #444;
+  line-height: 1.4;
+  margin-bottom: 15px;
+  flex-grow: 1; /* Растягивает описание, чтобы футер был внизу */
+}
+
+/* Подвал карточки (Цена и наличие) */
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+  margin-top: auto;
+}
+
+.product-price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #22c55e; /* Ваш фирменный зелёный цвет */
+}
+
+.product-stock {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #f0fdf4;
+}
+
+.in-stock {
+  color: #16a34a;
+}
+
+.out-of-stock {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+/* Адаптив для маленьких экранов */
+@media (max-width: 600px) {
+  .product-list-container {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+}

@@ -12,7 +12,7 @@ function Cart({ onClose }) {
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`, // ВСЕГДА добавляем токен
+        'Authorization': `Bearer ${token}`,
         ...options.headers,
       },
     });
@@ -88,11 +88,18 @@ function Cart({ onClose }) {
     }
   };
 
+  const handleCheckout = () => {
+    if (items.length === 0) return;
+    alert('Наш менеджер свяжется с вами в ближайшее время для подтверждения заказа');
+    // Опционально можно очистить корзину после оформления:
+    // setItems([]);
+  };
+
   const getProductDetails = (productId) => {
     return products.find(p => p.id === productId);
   };
 
-  // Если нет токена, не показываем корзину, а просим войти
+  // Если нет токена, просим войти
   if (!token) {
     return (
       <div style={modalStyles.overlay}>
@@ -115,54 +122,78 @@ function Cart({ onClose }) {
         ) : items.length === 0 ? (
           <p>Корзина пуста.</p>
         ) : (
-          <ul style={{ listStyle: 'none', padding: 0, maxHeight: '400px', overflowY: 'auto' }}>
-            {items.map(item => {
-              const product = getProductDetails(item.product_id);
-              
-              return (
-                <li key={item.id} style={{ 
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  borderBottom: '1px solid #eee', padding: '15px 0'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                    {product?.image_url && (
-                      <img src={product.image_url} alt={product.name} style={{ width: '60px', height: '60px', objectFit: 'contain', borderRadius: '6px' }} />
-                    )}
-                    <div>
-                      <strong>{product ? product.name : `Товар ID: ${item.product_id}`}</strong>
-                      <div style={{ fontSize: '14px', color: '#666' }}>
-                        {product ? `${product.price} ₽` : 'Цена неизвестна'}
+          <>
+            <ul style={{ listStyle: 'none', padding: 0, maxHeight: '400px', overflowY: 'auto' }}>
+              {items.map(item => {
+                const product = getProductDetails(item.product_id);
+                
+                return (
+                  <li key={item.id} style={{ 
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    borderBottom: '1px solid #eee', padding: '15px 0'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                      {product?.image_url && (
+                        <img src={product.image_url} alt={product.name} style={{ width: '60px', height: '60px', objectFit: 'contain', borderRadius: '6px' }} />
+                      )}
+                      <div>
+                        <strong>{product ? product.name : `Товар ID: ${item.product_id}`}</strong>
+                        <div style={{ fontSize: '14px', color: '#666' }}>
+                          {product ? `${product.price} ₽` : 'Цена неизвестна'}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <button 
-                      onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-                      style={controlBtnStyles}
-                    >
-                      -
-                    </button>
-                    <span style={{ minWidth: '20px', textAlign: 'center', fontWeight: 'bold' }}>
-                      {item.quantity}
-                    </span>
-                    <button 
-                      onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                      style={controlBtnStyles}
-                    >
-                      +
-                    </button>
-                    <button 
-                      onClick={() => handleDeleteItem(item.id)}
-                      style={{ ...controlBtnStyles, marginLeft: '10px', backgroundColor: '#fee2e2', color: '#dc2626' }}
-                    >
-                      🗑
-                    </button>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <button 
+                        onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
+                        style={controlBtnStyles}
+                      >
+                        -
+                      </button>
+                      <span style={{ minWidth: '20px', textAlign: 'center', fontWeight: 'bold' }}>
+                        {item.quantity}
+                      </span>
+                      <button 
+                        onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
+                        style={controlBtnStyles}
+                      >
+                        +
+                      </button>
+                      <button 
+                        onClick={() => handleDeleteItem(item.id)}
+                        style={{ ...controlBtnStyles, marginLeft: '10px', backgroundColor: '#fee2e2', color: '#dc2626' }}
+                      >
+                        🗑
+                      </button>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+
+            {/* Кнопка оформления заказа */}
+            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
+              <button
+                onClick={handleCheckout}
+                style={{
+                  backgroundColor: '#f59e0b', // оранжевый цвет
+                  color: '#fff',
+                  border: 'none',
+                  padding: '12px 30px',
+                  borderRadius: '8px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={(e) => e.target.style.backgroundColor = '#d97706'}
+                onMouseLeave={(e) => e.target.style.backgroundColor = '#f59e0b'}
+              >
+                Оформить заказ
+              </button>
+            </div>
+          </>
         )}
       </div>
     </div>

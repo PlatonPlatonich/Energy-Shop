@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.db.database import engine
 from app.db.base import Base
 
-# Эта строчка создаст таблицы в PostgreSQL (если они еще не созданы)
+
 Base.metadata.create_all(bind=engine)
 
 from app.api.products import router as products_router

@@ -16,6 +16,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
+
     birth_date_obj = user.birth_date
     today = datetime.now().date()
     age = today.year - birth_date_obj.year - ((today.month, today.day) < (birth_date_obj.month, birth_date_obj.day))
@@ -26,7 +27,8 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     new_user = User(
         email=user.email,
         password_hash=hashed_password,
-        birth_date=birth_date_obj
+        birth_date=birth_date_obj,
+        phone_number=user.phone_number  # <-- ДОБАВЛЕНО
     )
 
     db.add(new_user)
